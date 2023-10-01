@@ -1,0 +1,83 @@
+@import "./styles/variables";
+@import "./styles/respond-to";
+
+@import "./styles/layout";
+@import "./styles/sidebar";
+@import "./styles/header";
+@import "./styles/home";
+@import "./styles/modal";
+@import "./styles/dialog";
+@import "./styles/button";
+@import "./styles/tables";
+@import "./styles/form";
+@import "./styles/fonts";
+@import "./styles/grid";
+
+.container-app {
+  // width: 100%;
+  // background-color: green;
+  width: 100%;
+  padding: 5px;
+}
+
+* {
+  margin: 0;
+  font-family: "SVN-Poppins", Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  // box-sizing: content-box;
+  box-sizing: border-box;
+  // -moz-box-sizing: border-box;
+}
+
+.container-fuild {
+  margin: 0px;
+  width: 100%;
+}
+
+// DISPLAY
+.display--flex {
+  display: flex;
+}
+
+// JUSTIFY
+.justify-content--center {
+  justify-content: center;
+}
+
+.justify-content--fe {
+  justify-content: flex-end;
+}
+
+.justify-content--fs {
+  justify-content: flex-start;
+}
+
+.text-align--center {
+  text-align: center !important;
+}
+
+.text-align--right {
+  text-align: right !important;
+}
+
+.text-align--left {
+  text-align: left !important;
+}
+
+.container--content {
+  display: flex;
+  padding: 20px 0px;
+  position: relative;
+
+  @include minWidth-to(sm) {
+    padding: 20px 0px;
+  }
+  @include minWidth-to(md) {
+    padding: 20px 0px;
+  }
+  @include minWidth-to(lg) {
+    padding: 20px 0px;
+  }
+}

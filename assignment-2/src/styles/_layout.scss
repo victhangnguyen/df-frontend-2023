@@ -1,0 +1,14 @@
+.container--content {
+  min-height: 75vh;
+}
+.container--footer {
+  position: relative;
+  display: flex;
+  padding: 20px 5px;
+  &.color-light {
+    background-color: $primary2 !important;
+  }
+  &.color-dark {
+    background-color: $dark7 !important;
+  }
+}

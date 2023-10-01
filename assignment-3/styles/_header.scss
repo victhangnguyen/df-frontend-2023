@@ -1,0 +1,55 @@
+.header {
+  $this: &;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: solid 3px $primary5;
+  padding: 10px 5px;
+
+  &.color-light {
+    background-color: $primary2 !important;
+  }
+  &.color-dark {
+    background-color: $dark6 !important;
+  }
+
+  @include minWidth-to(sm) {
+    padding: 20px 25px;
+  }
+  @include minWidth-to(md) {
+    padding: 20px 50px;
+  }
+  @include minWidth-to(lg) {
+    padding: 20px 100px;
+  }
+
+  h1 {
+    margin: 0px;
+  }
+  .branch-name {
+    font-size: 1.15rem;
+    color: white;
+
+    @include minWidth-to(lg) {
+      font-size: 1.5rem;
+    }
+  }
+
+  .username {
+    color: white;
+  }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 35px;
+    width: 35px;
+    margin-right: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
