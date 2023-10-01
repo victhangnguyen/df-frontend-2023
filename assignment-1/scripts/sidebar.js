@@ -1,8 +1,7 @@
 "use strict";
 import {
-  deleteLocalStorage,
   getFromLocalStorage,
-  saveToLocalStorage,
+  saveToLocalStorage
 } from "./storage.js";
 
 const sidebar = document.getElementById("sidebar");

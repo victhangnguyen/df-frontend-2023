@@ -5,7 +5,7 @@ import "./style.css";
 
 //! Provider
 import { RouterProvider } from "react-router-dom";
-import { StoreProvider } from "./store";
+import { AppStoreProvider } from "./store";
 import { AppRouter } from "./routes";
 
 //! imp Datas Seed
@@ -15,11 +15,11 @@ dataSeed.generateData();
 function App() {
   return (
     <div className="App">
-      <StoreProvider>
+      <AppStoreProvider>
         <div className="container--fluid">
           <RouterProvider router={AppRouter} />
         </div>
-      </StoreProvider>
+      </AppStoreProvider>
     </div>
   );
 }

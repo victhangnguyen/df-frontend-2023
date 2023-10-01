@@ -1,7 +1,11 @@
 //! saveToStorage func
 //! function is used to store the Books into LocalStorage
 export function saveToLocalStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.log("Error: ", error);
+  }
 }
 
 //! saveToStorage
@@ -18,5 +22,9 @@ export function getFromLocalStorage(key) {
 //! deleteLocalStorage
 //! function is used to delete the Books from LocalStorage, and convert JSON automatically
 export function deleteLocalStorage(key) {
-  localStorage.removeItem(key);
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    console.log("Error: ", error);
+  }
 }

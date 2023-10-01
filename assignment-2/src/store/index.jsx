@@ -5,7 +5,7 @@ import { createContextActions } from "./contextActions";
 const AppContext = createContext();
 
 //! Provider wrap Application
-export function StoreProvider({ children }) {
+export function AppStoreProvider({ children }) {
   const [state, dispatch] = useReducer(combineReducer, initialState);
   const value = useMemo(() => [state, dispatch], [state]);
 
@@ -15,7 +15,7 @@ export function StoreProvider({ children }) {
 export function useStore() {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error("StoreProvider that needed to use!");
+    throw new Error("AppStoreProvider that needed to use!");
   }
   const [state, dispatch] = context;
   const contextActions = createContextActions(dispatch);
