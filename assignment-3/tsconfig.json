@@ -4,7 +4,10 @@
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node", "jest"],
+    "types": [
+      "node",
+      "jest"
+    ],
     "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": true,
@@ -20,7 +23,11 @@
     "useUnknownInCatchVariables": false,
     "noImplicitThis": true,
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "skipLibCheck": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -31,7 +38,9 @@
     "**/*.tsx",
     "**/*.d.ts",
     "**/*.js",
-    "**/*.jsx",
+    "**/*.jsx", "src/layouts/Header/index.t/sx",
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

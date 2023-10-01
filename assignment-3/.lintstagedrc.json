@@ -1,0 +1,6 @@
+{
+  "*.{js,jsx,ts,tsx}": [
+    "tslint --fix --config tslint.precommit.json --project tsconfig.json",
+    "git add"
+  ]
+}

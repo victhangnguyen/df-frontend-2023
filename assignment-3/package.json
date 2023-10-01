@@ -3,20 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "collect.js": "^4.36.1",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.9.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
+    "sass": "^1.68.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev:start": "react-scripts start",
+    "dev:sass-w": "sass --watch ./src/style.scss ./src/style.css",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --fix src --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +53,24 @@
     "@types/node": "^16.18.52",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
+    "@types/react-transition-group": "^4.4.7",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
-  }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./src/*.{js,jsx,ts,tsx}": [
+      "pnpm run lint:fix"
+    ]
+  },
+  "description": "In the previous assignment, we took a leap from a traditional web interface to a modern React application. Now, we're going to level up the project by incorporating TypeScript for type safety and setting up ESLint rules to ensure clean and convention-following code.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
