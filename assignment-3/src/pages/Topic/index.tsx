@@ -4,17 +4,23 @@ import DeleteIcon from '../../components/Icons/DeleteIcon';
 import { ConfirmationModal, InputAddTopicModal } from '../../components/Modal';
 import Table from '../../components/Table';
 import { useStore } from '../../store';
+//! types
+import { TopicTableItem, TopicType } from '../../types';
 
 function Topic() {
-  const [selectedId, setSelectedId] = React.useState(null);
+  const [selectedId, setSelectedId] = React.useState<
+    string | number | undefined | null
+  >(null);
   const [showModalConfirmation, setShowModalConfirmation] =
-    React.useState(false);
+    React.useState<boolean>(false);
   const [showModalInputAddTopic, setShowModalInputAddTopic] =
-    React.useState(false);
-  const [values, setValues] = React.useState({
+    React.useState<boolean>(false);
+  const [values, setValues] = React.useState<{ search: string }>({
     search: '',
   });
-  const [modalConfirmation, setModalConfirmation] = React.useState({
+  const [modalConfirmation, setModalConfirmation] = React.useState<{
+    content: string;
+  }>({
     content: '',
   });
 
@@ -28,7 +34,9 @@ function Topic() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void = (
+    e,
+  ) => {
     topic.fetchTopicsByFilter({ search: e.target.value });
 
     //! debound
@@ -38,58 +46,73 @@ function Topic() {
     });
   };
 
-  function handleClickAdd(e) {
+  const handleClickAdd: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => void = (e) => {
     e.preventDefault();
     setShowModalInputAddTopic(true);
-  }
+  };
 
-  function handleClickConfirmDelete(e, topic) {
+  const handleClickConfirmDelete: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    topics: TopicType,
+  ) => void = (e, topic) => {
     e.stopPropagation();
     setModalConfirmation({
       content: `Do you want to delete ${topic.name} topic.`,
     });
     setShowModalConfirmation(true);
-    setSelectedId(topic.id);
-  }
+    setSelectedId(topic.id!);
+  };
 
-  function handleDeleteTopicSubmit() {
+  const handleDeleteTopicSubmit: () => void = () => {
     topic.findIdAndDelete(selectedId);
 
     // settopicDatas(data);
     setShowModalConfirmation(false);
-  }
+  };
 
-  function handleAddTopicSubmit(e, data, resetForm) {
+  const handleAddTopicSubmit: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    data: TopicType,
+    resetForm: () => void,
+  ) => void = (e, data, resetForm) => {
     e.preventDefault();
 
     //! resetForm
     resetForm();
 
     topic.create(data);
-  }
+  };
 
-  function handleClickCancel(e) {
+  const handleClickCancel: (
+    e:
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | React.KeyboardEvent<HTMLImageElement>,
+  ) => void = (e) => {
     e.preventDefault();
     setShowModalConfirmation(false);
     setShowModalInputAddTopic(false);
     setSelectedId(null);
-  }
+  };
 
-  const tableHeaders = ['', 'Name', 'Action'];
-  const tableDetails = state?.topics?.map((topic, index) => {
-    return {
-      idx: index + 1,
-      name: topic.name,
-      action: (
-        <button
-          className="btn btn-delete"
-          onClick={(e) => handleClickConfirmDelete(e, topic)}
-        >
-          <DeleteIcon color="#000000" />
-        </button>
-      ),
-    };
-  });
+  const tableHeaders: Array<string> = ['', 'Name', 'Action'];
+  const tableDetails: Array<TopicTableItem> = state?.topics?.map(
+    (topic, index) => {
+      return {
+        idx: index + 1,
+        name: topic.name,
+        action: (
+          <button
+            className="btn btn-delete"
+            onClick={(e) => handleClickConfirmDelete(e, topic)}
+          >
+            <DeleteIcon color="#000000" />
+          </button>
+        ),
+      };
+    },
+  );
 
   return (
     <div className="">

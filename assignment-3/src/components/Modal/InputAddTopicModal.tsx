@@ -1,6 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import ReactPortal from '../ReactPortal';
+import { Topic } from '../../fakeDatabase';
+
+interface InputAddTopicModalProps {
+  submitLabelContent?: string;
+  cancelLabelContent?: string;
+  isOpen: boolean;
+  handleClose: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleAddTopicSubmit: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    topicData: Topic,
+    resetForm: () => void,
+  ) => void;
+}
 
 function InputAddTopicModal({
   submitLabelContent = 'Add',
@@ -8,14 +21,15 @@ function InputAddTopicModal({
   isOpen,
   handleClose,
   handleAddTopicSubmit,
-}) {
+}: InputAddTopicModalProps) {
   const [values, setValues] = useState({
     name: '',
   });
 
   const nodeRef = useRef(null);
   useEffect(() => {
-    const closeOnEscapeKey = (e) => (e.key === 'Escape' ? handleClose() : null);
+    const closeOnEscapeKey = (e) =>
+      e.key === 'Escape' ? handleClose(e) : null;
     document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
       document.body.removeEventListener('keydown', closeOnEscapeKey);

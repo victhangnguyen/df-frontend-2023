@@ -1,3 +1,1 @@
-export interface SettingType {
-  
-}
+export interface SettingType {}

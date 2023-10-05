@@ -1,20 +1,10 @@
 import { createContext, useContext, useMemo, useReducer } from 'react';
-import { combineReducer, initialState } from './combineReducer';
+import {
+  combineReducer,
+  initialState,
+  InitialStateType,
+} from './combineReducer';
 import { createContextActions } from './contextActions';
-//! types
-// import { Book } from '../fakeDatabase/Book.model';
-// import { Topic } from '../fakeDatabase/Topic.model';
-import { BookType, TopicType } from '../types';
-
-interface InitialStateType {
-  isNavDashboardActive: boolean;
-  books: Array<BookType>;
-  bookCounts: number;
-  topics: Array<TopicType>;
-  topicCounts: number;
-  loading: boolean;
-  isLight: boolean;
-}
 
 interface AppContextType {
   state: InitialStateType;

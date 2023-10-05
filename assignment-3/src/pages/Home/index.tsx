@@ -6,17 +6,26 @@ import { ConfirmationModal, InputAddBookModal } from '../../components/Modal';
 import Pagination from '../../components/Pagination';
 //! store
 import { useStore } from '../../store';
+//! types
+import { BookTableItem, BookType } from '../../types';
 
 function Home() {
-  const [selectedId, setSelectedId] = React.useState(null);
+  const [selectedId, setSelectedId] = React.useState<
+    string | number | undefined | null
+  >(null);
   const [showModalConfirmation, setShowModalConfirmation] =
-    React.useState(false);
+    React.useState<boolean>(false);
   const [showModalInputAddBook, setShowModalInputAddBook] =
-    React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState(1);
+    React.useState<boolean>(false);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
   const PER_PAGE = 5;
 
-  const [modalConfirmation, setModalConfirmation] = React.useState({
+  const [values, setValues] = React.useState<{ search: string }>({
+    search: '',
+  });
+  const [modalConfirmation, setModalConfirmation] = React.useState<{
+    content: string;
+  }>({
     content: '',
   });
 
@@ -24,10 +33,6 @@ function Home() {
     state,
     contextActions: { book, topic },
   } = useStore();
-
-  const [values, setValues] = React.useState({
-    search: '',
-  });
 
   const fetchBooksWithSearch = React.useCallback(() => {
     book.fetchBooksByFilters(currentPage, PER_PAGE, {
@@ -45,22 +50,27 @@ function Home() {
     fetchBooksWithSearch();
   }, [fetchBooksWithSearch]);
 
-  const handleChange = (e) => {
-    // book.fetchBooksByFilters(currentPage, PER_PAGE, { search: values.search });
-
-    //! debound
+  const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void = (
+    e,
+  ) => {
+    const target = e.target as HTMLInputElement;
     setValues({
       ...values,
-      [e.target.name]: e.target.value,
+      [target.name]: target.value,
     });
   };
 
-  function handleClickShowAddModal(e) {
+  const handleClickShowAddModal: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => void = (e) => {
     e.preventDefault();
     setShowModalInputAddBook(true);
-  }
+  };
 
-  function handleClickConfirmDelete(e, book) {
+  const handleClickConfirmDelete: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    book: BookType,
+  ) => void = (e, book) => {
     e.stopPropagation();
     setModalConfirmation({
       content: `Do you want to delete ${book.name} book.`,
@@ -68,25 +78,35 @@ function Home() {
     setShowModalConfirmation(true);
     setSelectedId(book.id);
     console.log('book.id: ', book.id);
-  }
+  };
 
-  function handleDeleteBookSubmit(e) {
+  const handleDeleteBookSubmit: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => void = (e) => {
     e.preventDefault();
 
     book.findIdAndDelete(selectedId);
 
     setShowModalConfirmation(false);
     fetchBooksWithSearch();
-  }
+  };
 
-  function handleClickCancel(event) {
-    event.preventDefault();
+  const handleClickCancel = (
+    e:
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | React.KeyboardEvent<HTMLImageElement>,
+  ) => {
+    e.preventDefault();
     setShowModalConfirmation(false);
     setShowModalInputAddBook(false);
     setSelectedId(null);
-  }
+  };
 
-  function handleAddBookSubmit(_event, data, resetForm) {
+  const handleAddBookSubmit: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    data: BookType,
+    resetForm: () => void,
+  ) => void = (_e, data, resetForm) => {
     const bookData = {
       name: data.name,
       author: data.author,
@@ -99,10 +119,10 @@ function Home() {
     resetForm();
 
     fetchBooksWithSearch();
-  }
+  };
 
   const tableHeaders: Array<string> = ['', 'Name', 'Author', 'Topic', 'Action'];
-  const tableDetails = state.books?.map((book, index) => {
+  const tableDetails: Array<BookTableItem> = state.books?.map((book, index) => {
     return {
       idx: index + 1,
       name: book.name,

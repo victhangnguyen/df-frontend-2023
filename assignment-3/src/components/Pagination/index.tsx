@@ -1,8 +1,13 @@
 import React from 'react';
 import Pagination from 'react-bootstrap/Pagination';
 
-//! imp Hooks
-// import { scrollToTop } from "../../hooks/scroll";
+interface PaginationProps {
+  itemsCount: number;
+  itemsPerPage: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  alwaysShown: boolean;
+}
 
 function PaginationComponent({
   itemsCount,
@@ -10,9 +15,7 @@ function PaginationComponent({
   currentPage,
   setCurrentPage,
   alwaysShown = true,
-  // setProductsCountPerPage,
-  // alwayScrollToTop = false,
-}) {
+}: PaginationProps) {
   const pagesCount: number =
     itemsCount && itemsPerPage ? Math.ceil(itemsCount / itemsPerPage) : 1;
   const isPaginationShown = alwaysShown ? true : Boolean(pagesCount > 1);
@@ -23,7 +26,6 @@ function PaginationComponent({
     if (currentPage === number) return;
     setCurrentPage(number);
     const loadingItems = itemsCount - (number - 1) * itemsPerPage;
-    //! đang phát triển thêm tính năng loading theo tính toán
     console.log('loadingItems: ', loadingItems);
   };
 
@@ -72,14 +74,6 @@ function PaginationComponent({
 
     return null;
   });
-
-  // React.useEffect(() => {
-  //   setProductsCountPerPage(
-  //     itemsCount - (currentPage - 1) * itemsPerPage >= itemsPerPage
-  //       ? itemsPerPage
-  //       : itemsCount - (currentPage - 1) * itemsPerPage
-  //   );
-  // }, []);
 
   React.useEffect(() => {
     function setLastPageAsCurrent() {
