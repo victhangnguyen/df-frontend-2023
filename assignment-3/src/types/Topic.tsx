@@ -1,4 +1,4 @@
 export interface TopicType {
-  id: string | number;
+  id?: string | number;
   name: string;
 }

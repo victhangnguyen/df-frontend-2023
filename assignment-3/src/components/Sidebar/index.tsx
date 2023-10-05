@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import BarsIcon from '../Icons/BarsIcon';
 //! hookStore
 import { useStore } from '../../store';
+//! types
+import { SidebarProps } from '../../types';
 
-const Sidebar = ({ navItems }) => {
+function Sidebar({ navItems }: SidebarProps) {
   const {
     state,
     contextActions: { navDashboard },
@@ -59,6 +61,6 @@ const Sidebar = ({ navItems }) => {
       </ul>
     </nav>
   );
-};
+}
 
 export default Sidebar;

@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import ReactPortal from '../ReactPortal';
+//! types
+import { ConfirmationModalProps } from '../../types';
 
 function ConfirmationModal({
   submitLabelContent = 'OK',
@@ -9,10 +11,11 @@ function ConfirmationModal({
   isOpen,
   handleClose,
   handleSubmit,
-}) {
+}: ConfirmationModalProps) {
   const nodeRef = useRef(null);
   useEffect(() => {
-    const closeOnEscapeKey = (e) => (e.key === 'Escape' ? handleClose() : null);
+    const closeOnEscapeKey = (e) =>
+      e.key === 'Escape' ? handleClose(e) : null;
     document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
       document.body.removeEventListener('keydown', closeOnEscapeKey);

@@ -1,6 +1,11 @@
 import { useState, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 
+interface ReactPortalProps {
+  children: React.ReactNode;
+  wrapperId?: string;
+}
+
 //! create element inside
 function createWrappedBody(wrapperId) {
   const wrapperElement = document.createElement('div');
@@ -10,7 +15,10 @@ function createWrappedBody(wrapperId) {
 }
 
 //! children: renderedComponent, wrapperId: id of portal-root
-function ReactPortal({ children, wrapperId = 'portal-wrapped-root' }) {
+function ReactPortal({
+  children,
+  wrapperId = 'portal-wrapped-root',
+}: ReactPortalProps) {
   //! state used to update modal and re-render modal
   const [wrapperElement, setWrapperElement] = useState<Element | null>(null);
 

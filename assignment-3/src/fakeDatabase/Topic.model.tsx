@@ -1,7 +1,7 @@
 import { storage } from '../utilities';
 
 export class Topic {
-  id: string | number;
+  id?: string | number;
   name: string;
 
   constructor({ id, name }) {

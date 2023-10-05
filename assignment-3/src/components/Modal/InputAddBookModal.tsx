@@ -1,6 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import ReactPortal from '../ReactPortal';
+import { BookType, TopicType } from '../../types';
+
+interface InputAddBookModalProps {
+  topics: Array<TopicType>;
+  submitLabelContent?: string;
+  cancelLabelContent?: string;
+  isOpen: boolean;
+  handleClose: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleAddBookSubmit: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    bookData: BookType,
+    resetForm: () => void,
+  ) => void;
+}
 
 function InputAddBookModal({
   topics,
@@ -9,7 +23,7 @@ function InputAddBookModal({
   isOpen,
   handleClose,
   handleAddBookSubmit,
-}) {
+}: InputAddBookModalProps) {
   const [values, setValues] = useState({
     name: '',
     author: '',
@@ -17,7 +31,8 @@ function InputAddBookModal({
   });
   const nodeRef = useRef(null);
   useEffect(() => {
-    const closeOnEscapeKey = (e) => (e.key === 'Escape' ? handleClose() : null);
+    const closeOnEscapeKey = (e) =>
+      e.key === 'Escape' ? handleClose(e) : null;
     document.body.addEventListener('keydown', closeOnEscapeKey);
     return () => {
       document.body.removeEventListener('keydown', closeOnEscapeKey);
@@ -65,7 +80,7 @@ function InputAddBookModal({
       >
         <div className="modal" ref={nodeRef}>
           <form className="modal-wrapped" onSubmit={handleSubmit}>
-            <div className="modal-header">Delete Book</div>
+            <div className="modal-header">Add Book</div>
             <div className="modal-body">
               <div className="modal-content">
                 <div className="form-control-group">

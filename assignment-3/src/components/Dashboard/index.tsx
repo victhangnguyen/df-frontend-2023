@@ -6,14 +6,20 @@ import Sidebar from '../Sidebar';
 import CreateBookIcon from '../Icons/CreateBookIcon';
 import CreateTopicIcon from '../Icons/CreateTopicIcon';
 import SettingIcon from '../Icons/SettingIcon';
+//! types
+import { NavItem } from '../../types';
 
-const DashboardScreen = () => {
+function DashboardScreen() {
   const outlet = useOutlet();
   //! user or admin
-  const navItems = [
-    { key: '/', icon: <CreateBookIcon />, title: 'Create Book' },
-    { key: '/create-topic', icon: <CreateTopicIcon />, title: 'Create Topic' },
-    { key: '/setting', icon: <SettingIcon />, title: 'Setting' },
+  const navItems: Array<NavItem> = [
+    { key: '/', icon: <CreateBookIcon size="30px" />, title: 'Create Book' },
+    {
+      key: '/create-topic',
+      icon: <CreateTopicIcon size="30px" />,
+      title: 'Create Topic',
+    },
+    { key: '/setting', icon: <SettingIcon size="30px" />, title: 'Setting' },
   ];
 
   return (
@@ -22,6 +28,6 @@ const DashboardScreen = () => {
       <div className="container--fluid container-app">{outlet}</div>
     </div>
   );
-};
+}
 
 export default DashboardScreen;

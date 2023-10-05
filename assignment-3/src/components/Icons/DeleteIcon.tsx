@@ -1,11 +1,12 @@
 import React from 'react';
+import { IconType } from '../../types';
 
 function DeleteIcon({
-  size = 20,
-  color = '#f0f0f0',
+  size = '20px',
+  color = '#000000',
   colorActive = '#000000',
   active = false,
-}) {
+}: IconType) {
   return (
     <svg
       width={size}

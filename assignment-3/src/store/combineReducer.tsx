@@ -1,4 +1,16 @@
 import * as actionTypes from './actionTypes';
+//! types
+import { BookType, TopicType } from '../types';
+
+export interface InitialStateType {
+  isNavDashboardActive: boolean;
+  books: Array<BookType>;
+  bookCounts: number;
+  topics: Array<TopicType>;
+  topicCounts: number;
+  loading: boolean;
+  isLight: boolean;
+}
 
 export const initialState = {
   //! NavDashboard

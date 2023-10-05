@@ -1,11 +1,12 @@
 import React from 'react';
+import { IconType } from '../../types';
 
 function BarsIcon({
   size = '20px',
   color = '#000000',
   colorActive = '#000000',
   active = false,
-}) {
+}: IconType) {
   return (
     <svg
       width={size}

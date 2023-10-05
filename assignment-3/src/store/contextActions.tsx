@@ -1,8 +1,12 @@
+import React from 'react';
 import BookAPI from '../fakeAPIs/bookAPI';
 import TopicAPI from '../fakeAPIs/topicAPI';
 import * as actionTypes from './actionTypes';
+import { BookType, TopicType } from '../types';
 
-export const createContextActions = (dispatch) => {
+export const createContextActions: (
+  dispatch: React.Dispatch<{ type: string; payload?: any }>,
+) => any = (dispatch) => {
   return {
     //! navDashboardContextActions
     navDashboard: {
@@ -22,18 +26,22 @@ export const createContextActions = (dispatch) => {
           payload: response,
         });
       },
-      create: (bookData) => {
+      create: (bookData: BookType) => {
         const response = BookAPI.create(bookData);
         dispatch({
           type: actionTypes.CREATE_ONE_BOOK,
           payload: response,
         });
       },
-      findIdAndDelete: (id) => {
+      findIdAndDelete: (id: string | number) => {
         const response = BookAPI.findOneAndRemove(id);
         dispatch({ type: actionTypes.DELETE_ONE_BOOK, payload: response });
       },
-      fetchBooksByFilters: (page, perPage, { search = '' }) => {
+      fetchBooksByFilters: (
+        page: number,
+        perPage: number,
+        { search = '' }: { search: string },
+      ) => {
         const response = BookAPI.fetchBooksByFilters(page, perPage, { search });
         dispatch({
           type: actionTypes.FETCH_BOOKS_BY_FILTERS,
@@ -50,18 +58,18 @@ export const createContextActions = (dispatch) => {
           payload: response,
         });
       },
-      create: (topicData) => {
+      create: (topicData: TopicType) => {
         const response = TopicAPI.create(topicData);
         dispatch({
           type: actionTypes.CREATE_ONE_TOPIC,
           payload: response,
         });
       },
-      findIdAndDelete: (id) => {
+      findIdAndDelete: (id: string | number) => {
         const response = TopicAPI.findOneAndRemove(id);
         dispatch({ type: actionTypes.DELETE_ONE_TOPIC, payload: response });
       },
-      fetchTopicsByFilter: ({ search = '' }) => {
+      fetchTopicsByFilter: ({ search = '' }: { search: string }) => {
         const response = TopicAPI.fetchTopicsByFilters({ search });
         dispatch({
           type: actionTypes.FETCH_TOPICS_BY_FILTERS,
