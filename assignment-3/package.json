@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "collect.js": "^4.36.1",
+    "husk": "^0.5.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.0",
     "react-dom": "^18.2.0",
@@ -23,7 +24,9 @@
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint --fix src --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "cd .. && husky install assignment-3/.husky",
+    "create-hook": "husky add .husky/pre-commit \"npm test\""
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +56,7 @@
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
     "@types/react-transition-group": "^4.4.7",
+    "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
   },

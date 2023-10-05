@@ -80,7 +80,7 @@ function InputAddBookModal({
       >
         <div className="modal" ref={nodeRef}>
           <form className="modal-wrapped" onSubmit={handleSubmit}>
-            <div className="modal-header">Delete Book</div>
+            <div className="modal-header">Add Book</div>
             <div className="modal-body">
               <div className="modal-content">
                 <div className="form-control-group">

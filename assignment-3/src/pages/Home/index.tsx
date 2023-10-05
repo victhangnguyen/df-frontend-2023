@@ -64,6 +64,7 @@ function Home() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => void = (e) => {
     e.preventDefault();
+
     setShowModalInputAddBook(true);
   };
 
