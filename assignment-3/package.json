@@ -62,7 +62,8 @@
   },
   "lint-staged": {
     "./src/*.{js,jsx,ts,tsx}": [
-      "pnpm run lint:fix"
+      "pnpm run lint:fix",
+      "git add"
     ]
   },
   "description": "In the previous assignment, we took a leap from a traditional web interface to a modern React application. Now, we're going to level up the project by incorporating TypeScript for type safety and setting up ESLint rules to ensure clean and convention-following code.",

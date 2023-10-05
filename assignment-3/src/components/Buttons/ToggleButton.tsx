@@ -2,7 +2,7 @@ import React from 'react';
 import { ToggleButtonProps } from '../../types/Button';
 
 function ToggleButton({ label, toggled, onClick }: ToggleButtonProps) {
-  const [isToggled, toggle] = React.useState(toggled);
+  const [isToggled, toggle] = React.useState<boolean>(toggled);
 
   const callback = () => {
     toggle(!isToggled);
