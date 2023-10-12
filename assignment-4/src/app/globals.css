@@ -25,3 +25,36 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+
+.pagination-container {
+  @apply list-none flex justify-center p-0 mt-3;
+}
+
+.pagination-container a {
+  @apply px-3 py-1.5 mx-0.5 relative block rounded text-sm dark:text-neutral-600  dark:text-slate-800 dark:hover:bg-neutral-700;
+}
+
+.pagination-active {
+  @apply relative block rounded bg-slate-500 text-sm font-medium text-slate-50 dark:text-slate-500 transition-all duration-300;
+}
+
+.pagination-disabled {
+  @apply pointer-events-none relative text-sm  text-neutral-100 dark:hover:bg-neutral-100;
+}
+
+.modal {
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.75);
+}
+.modal-enter-done {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+  transition:
+    opacity 300ms,
+    transform 300ms;
+}
+.modal-exit {
+  transform: scale(0.4);
+}

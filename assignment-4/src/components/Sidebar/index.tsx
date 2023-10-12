@@ -1,49 +1,46 @@
-import Link from 'next/link'
+import React from 'react';
+import { Link } from 'react-router-dom';
 //! Components
-import {
-  BarsIcon,
-  CreateBookIcon,
-  CreateTopicIcon,
-  SettingIcon,
-} from '../Icons'
+import BarsIcon from '../Icons/BarsIcon';
+//! hookStore
+import { useStore } from '../../store';
+//! types
+import { SidebarProps } from '../../types';
 
-const isNavDashboardActive = true
-const state = { isLight: true }
+function Sidebar({ navItems }: SidebarProps) {
+  const {
+    state,
+    contextActions: { navDashboard },
+  } = useStore();
 
-function Sidebar() {
-  // const handleClickExpand = () => {
-  //   if (isNavDashboardActive) {
-  //     // navDashboard.open()
-  //   } else {
-  //     // navDashboard.collapse()
-  //   }
-  // }
+  //! destructure AppContextState
+  const { isNavDashboardActive } = state;
 
-  const navItems = [
-    { key: '/', icon: <CreateBookIcon />, title: 'Create Book' },
-    {
-      key: '/create-topic',
-      icon: <CreateTopicIcon />,
-      title: 'Create Topic',
-    },
-    { key: '/setting', icon: <SettingIcon />, title: 'Setting' },
-  ]
+  function handleClickExpand() {
+    if (isNavDashboardActive) {
+      navDashboard.open();
+    } else {
+      navDashboard.collapse();
+    }
+  }
 
   const renderNavItems = navItems?.map((navItem) => {
     return (
       <li key={navItem.key} className="sidebar-item" id="sidebar-create-topic">
-        <Link href={`${navItem.key}`}>
+        <Link to={`${navItem.key}`}>
           {navItem.icon}
           <strong>{navItem.title}</strong>
         </Link>
       </li>
-    )
-  })
+    );
+  });
 
   return (
     <nav
       id="sidebar"
-      className={`sidebar ${isNavDashboardActive ? 'active' : ''}`}
+      className={`sidebar ${state.isLight ? 'color-light' : 'color-dark'} ${
+        isNavDashboardActive ? 'active' : ''
+      }`}
     >
       <div
         className={`sidebar-header ${
@@ -53,7 +50,7 @@ function Sidebar() {
         <button
           className="btn-expand"
           id="btn-expand"
-          // onClick={() => handleClickExpand()}
+          onClick={handleClickExpand}
         >
           <BarsIcon size="30px" active={isNavDashboardActive} />
         </button>
@@ -63,7 +60,7 @@ function Sidebar() {
         {renderNavItems}
       </ul>
     </nav>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

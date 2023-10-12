@@ -1,75 +1,81 @@
 'use client'
 
-import React from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
 import { useAppContext } from '../../Context'
-import TableBook from '../../components/TableBook'
-import { generateData } from '../../fakeDatabase'
-import defaultExport from '../../components/Pagination'
+import { TableBook } from '../../components/Table'
+//! imp Components
+import Pagination from '../../components/Pagination'
+import Searchbar from '../../components/Searchbar'
+import { ConfirmationModal } from '../../components/Modal'
 
 const DATA_PER_PAGE = 5
-const TOTAL_DATA = 37
 
-interface BookPageProps {
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
+// interface BookPageProps {
+//   searchParams?: { [key: string]: string | string[] | undefined }
+// }
 
-function BookPage({ searchParams }: BookPageProps) {
+function BookPage() {
   const {
     state,
     contextActions: { book },
   } = useAppContext()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
 
-  console.log('searchParams: ', searchParams)
+  const [search, setSearch] = useState<string>('')
+  const [showModal, setShowModal] = useState<boolean>(false)
 
-  // const currentPage: number = Number(searchParams?.page) || 1
-  const currentPage: number = 4
-  
-  // const totalPages = Math.ceil(TOTAL_DATA / DATA_PER_PAGE)
-  const totalPages = 10
+  const currentPage = Number(searchParams.get('page')) || 1
 
-  let offset: number = (currentPage - 1) * DATA_PER_PAGE
+  const serializeQueryString = (name: string, value: string) => {
+    const urlParams = new URLSearchParams(searchParams)
+    urlParams.set(name, value)
 
-  console.log('totalPages: ', totalPages)
-
-  const pageNumbers: Array<number> = []
-
-  for (let i: number = currentPage - 3; i <= currentPage + 3; i++) {
-    if (i < 1) continue
-    if (i > currentPage) break
-    pageNumbers.push(i)
+    return urlParams.toString()
   }
-  console.log('pageNumbers: ', pageNumbers)
 
-  React.useEffect(() => {
-    generateData()
+  const handlePageChange = (newSelectedItem: number) => {
+    router.push(
+      `${pathname}?${serializeQueryString('page', String(newSelectedItem))}`,
+    )
+  }
 
-    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, {
-      search: '',
-    })
-  }, [])
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value)
+  }
 
-  console.log('state.books: ', state.books)
+  const handleClose = () => {
+    setShowModal(false)
+  }
 
-  React.useEffect(() => {
-    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, { search: 'the' })
-  }, [currentPage])
+  const handleClickAdd = () => {
+    setShowModal(true)
+  }
+
+  useEffect(() => {
+    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, { search })
+  }, [currentPage, search])
 
   return (
-    <h1>
-      <div className="container mx-auto">
-        <TableBook data />
-      </div>
-    </h1>
+    <div className="container mx-auto p-1 sm:p-0">
+      <Searchbar
+        onSearchChange={handleSearchChange}
+        onClickAdd={handleClickAdd}
+      />
+      <TableBook data={state.books} />
+      <Pagination
+        currentPage={currentPage}
+        itemsCount={state.bookCounts}
+        itemsPerPage={DATA_PER_PAGE}
+        onPageChange={(newSelectedItem: number) =>
+          handlePageChange(newSelectedItem)
+        }
+      />
+      <ConfirmationModal isOpen={showModal} onClose={handleClose} />
+    </div>
   )
 }
 
 export default BookPage
-// export default function Page({
-//   params,
-//   searchParams,
-// }: {
-//   params: { slug: string };
-//   searchParams?: { [key: string]: string | string[] | undefined };
-// }) {
-//   return <h1>{searchParams?.greeting || "Hello!"}</h1>;
-// }

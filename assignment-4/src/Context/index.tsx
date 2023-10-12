@@ -4,26 +4,10 @@ import { createContext, useContext, useMemo, useReducer } from 'react'
 import { combineReducer, initialState } from './combineReducer'
 import { createContextActions } from './contextActions'
 //! types
-import { BookType } from '../Types/BookType'
-
-interface InitialStateType {
-  isNavDashboardActive: boolean
-  books: Array<BookType>
-  bookCounts: number
-  loading: boolean
-  isLight: boolean
-}
-
-interface AppContextType {
-  state: InitialStateType
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dispatch: React.Dispatch<any>
-}
+import { AppContextType } from '../types'
 
 const AppContext = createContext<AppContextType>({
-  //! initialState
   state: initialState,
-  //! dispatch with null callbackFn
   dispatch: () => null,
 })
 
