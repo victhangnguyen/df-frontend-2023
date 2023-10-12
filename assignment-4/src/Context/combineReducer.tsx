@@ -1,8 +1,16 @@
 import * as actionTypes from './actionTypes'
+import { BookType } from '../types'
 
 export const initialState = {
+  //! bookReducer
   books: [],
   bookCounts: 0,
+  //! modalReducer
+  selectedId: '',
+  modalType: '',
+  modalIsOpen: false,
+  modalTitle: '',
+  modalMessage: '',
 }
 
 export function combineReducer(state, action) {
@@ -23,7 +31,7 @@ export function combineReducer(state, action) {
       return {
         ...state,
         books: state.books.filter(
-          (book) => String(book.id) !== String(action.payload.id),
+          (book: BookType) => String(book.id) !== String(action.payload.id),
         ),
         bookCounts: state.bookCounts - 1,
       }
@@ -32,6 +40,23 @@ export function combineReducer(state, action) {
         ...state,
         books: action.payload.books,
         bookCounts: action.payload.bookCounts,
+      }
+    case actionTypes.CONFIRM_DELETE_BOOK:
+      return {
+        ...state,
+        selectedId: action.payload.selectedId,
+        modalType: action.payload.modalType,
+        modalIsOpen: action.payload.modalIsOpen,
+        modalTitle: action.payload.modalTitle,
+        modalMessage: action.payload.modalMessage,
+      }
+    case actionTypes.CONFIRM_CLOSE:
+      return {
+        ...state,
+        modalType: action.payload.modalType,
+        modalIsOpen: action.payload.modalIsOpen,
+        modalTitle: action.payload.modalTitle,
+        modalMessage: action.payload.modalMessage,
       }
 
     default: {

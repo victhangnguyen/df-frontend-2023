@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconType } from '../../types';
+import React from 'react'
+import { IconType } from '../../types'
 
 function DeleteIcon({
   size = '20px',
@@ -40,7 +40,7 @@ function DeleteIcon({
         </g>
       )}
     </svg>
-  );
+  )
 }
 
-export default DeleteIcon;
+export default DeleteIcon

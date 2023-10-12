@@ -1,115 +1,146 @@
-import React, { useState, useEffect, useRef } from 'react'
-
-import Modal from './Modal'
+import React, { useState, useEffect } from 'react'
+//! types
 import { BookType, TopicType } from '../../types'
+//! components
+import Modal from './Modal'
+//! services
+import { topicService } from '../../Services'
 
 interface CreateBookModalProps {
-  topics: Array<TopicType>
-  submitLabelContent?: string
-  cancelLabelContent?: string
+  // submitLabelContent?: string
+  // cancelLabelContent?: string
   isOpen: boolean
-  onClose: (e: React.MouseEvent<HTMLButtonElement>) => void
-  handleAddBookSubmit: (
-    e: React.MouseEvent<HTMLButtonElement>,
+  onClose: (
+    e:
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | React.KeyboardEvent<HTMLImageElement>,
+  ) => void
+  onSubmit: (
+    e: React.FormEvent<HTMLFormElement>,
     bookData: BookType,
     resetForm: () => void,
   ) => void
 }
 
-function CreateBookModal({
-  topics,
-  submitLabelContent = 'Add',
-  cancelLabelContent = 'Cancel',
-  isOpen,
-  onClose,
-  handleAddBookSubmit,
-}: CreateBookModalProps) {
+function CreateBookModal({ isOpen, onClose, onSubmit }: CreateBookModalProps) {
   const [values, setValues] = useState({
     name: '',
     author: '',
     topic: '',
   })
 
-  // const handleChange = (e) => {
-  //   setValues({
-  //     ...values,
-  //     [e.target.name]: e.target.value,
-  //   })
-  // }
+  const [topics, setTopics] = useState<Array<TopicType>>([])
 
-  // function resetForm() {
-  //   setValues({
-  //     name: '',
-  //     author: '',
-  //     topic: '',
-  //   })
-  // }
+  function resetForm() {
+    setValues({
+      name: '',
+      author: '',
+      topic: '',
+    })
+  }
 
-  // function handleSubmit(e) {
-  //   e.preventDefault()
-  //   const bookData = {
-  //     name: values.name,
-  //     author: values.author,
-  //     topic: values.topic,
-  //   }
+  const handleChange = (e) => {
+    console.log('e.target.value:', e.target.value)
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    })
+  }
 
-  //   handleAddBookSubmit(e, bookData, resetForm)
-  // }
+  useEffect(() => {
+    const data = topicService.fetchAll()
+    setTopics(data)
+  }, [])
 
-  // const renderOptions = topics.map((opt) => {
-  //   return <option key={opt.id}>{opt.name}</option>
-  // })
+  const renderOptions = topics.map((opt) => {
+    return <option key={opt.id}>{opt.name}</option>
+  })
 
   return (
-    <Modal>
-      {/* <!-- Modal content --> */}
-      <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        {/* <!-- Modal header --> */}
-        <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Terms of Service
-          </h3>
-          <button
-            type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+    <Modal isOpen={isOpen} onClose={onClose}>
+      {/* <!-- Modal body --> */}
+      <form
+        className="p-5"
+        onSubmit={(e) => {
+          e.preventDefault()
+          const bookData = {
+            name: values.name,
+            author: values.author,
+            topic: values.topic,
+          }
+
+          onSubmit(e, bookData, resetForm)
+        }}
+      >
+        <div className="mb-6">
+          <label
+            htmlFor="input-name"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            <span className="sr-only">Close modal</span>
-          </button>
+            Name
+          </label>
+          <input
+            type="text"
+            id="input-name"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            name="name"
+            placeholder="Enter book's name..."
+            value={values.name}
+            onChange={handleChange}
+          />
         </div>
-        {/* {children} */}
-        {/* <!-- Modal body --> */}
-        <div className="p-6 space-y-6">
-          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            With less than a month to go before the European Union enacts new
-            consumer privacy laws for its citizens, companies around the world
-            are updating their terms of service agreements to comply.
-          </p>
-          <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-            The European Union’s General Data Protection Regulation (G.D.P.R.)
-            goes into effect on May 25 and is meant to ensure a common set of
-            data rights in the European Union. It requires organizations to
-            notify users as soon as possible of high-risk data breaches that
-            could personally affect them.
-          </p>
+        <div className="mb-6">
+          <label
+            htmlFor="iput-author"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Author
+          </label>
+          <input
+            type="text"
+            id="iput-author"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            name="author"
+            placeholder="Enter book's author..."
+            value={values.author}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="select-topic"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Topic
+          </label>
+          <select
+            id="select-topic"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            name="topic"
+            value={values.topic}
+            onChange={handleChange}
+          >
+            <option value="">Choose a Topic</option>
+            {renderOptions}
+          </select>
         </div>
         {/* <!-- Modal footer --> */}
-        <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+        <div className="flex items-center justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button
-            data-modal-hide="defaultModal"
-            type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            type="submit"
+            className="mx-4 uppercase text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            I accept
+            Create
           </button>
           <button
-            data-modal-hide="defaultModal"
             type="button"
-            className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+            className="mx-4 uppercase text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+            onClick={onClose}
           >
-            Decline
+            Cancle
           </button>
         </div>
-      </div>
+      </form>
     </Modal>
   )
 }

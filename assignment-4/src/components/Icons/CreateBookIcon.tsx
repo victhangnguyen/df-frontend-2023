@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconType } from '../../types';
+import React from 'react'
+import { IconType } from '../../types'
 
 function CreateBookIcon({
   size = '20px',
@@ -39,7 +39,7 @@ function CreateBookIcon({
         </g>
       )}
     </svg>
-  );
+  )
 }
 
-export default CreateBookIcon;
+export default CreateBookIcon

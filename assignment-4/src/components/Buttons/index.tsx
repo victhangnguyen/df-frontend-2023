@@ -1,3 +1,4 @@
-import ToggleButton from './ToggleButton';
+import ToggleButton from './ToggleButton'
+import Button from './Button'
 
-export { ToggleButton };
+export { ToggleButton, Button }

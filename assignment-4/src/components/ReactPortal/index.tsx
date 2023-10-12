@@ -46,6 +46,7 @@ function ReactPortal({
         wrapperElement!.parentNode.removeChild(wrapperElement!)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wrapperId])
 
   // wrapperElement state will be null on very first render.

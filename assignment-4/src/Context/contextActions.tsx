@@ -1,5 +1,7 @@
 import { bookServices } from '../Services'
 import * as actionTypes from './actionTypes'
+//! types
+import { BookType } from '../types'
 
 export const createContextActions = (dispatch) => {
   return {
@@ -11,7 +13,7 @@ export const createContextActions = (dispatch) => {
           payload: response,
         })
       },
-      create: (bookData) => {
+      create: (bookData: BookType) => {
         const response = bookServices.create(bookData)
         dispatch({
           type: actionTypes.CREATE_ONE_BOOK,
@@ -33,6 +35,32 @@ export const createContextActions = (dispatch) => {
         dispatch({
           type: actionTypes.FETCH_BOOKS_BY_FILTERS,
           payload: response,
+        })
+      },
+    },
+    modal: {
+      confirmDeleteBook: (bookData: BookType) => {
+        dispatch({
+          type: actionTypes.CONFIRM_DELETE_BOOK,
+          payload: {
+            modalType: 'DELETE',
+            selectedId: bookData.id,
+            modalIsOpen: true,
+            modalTitle: 'Delete Book',
+            modalMessage: `Do you want to delete ${bookData.name} book?`,
+          },
+        })
+      },
+      confirmClose: () => {
+        dispatch({
+          type: actionTypes.CONFIRM_DELETE_BOOK,
+          payload: {
+            selectedId: '',
+            modalType: '',
+            modalIsOpen: false,
+            modalTitle: '',
+            modalMessage: '',
+          },
         })
       },
     },

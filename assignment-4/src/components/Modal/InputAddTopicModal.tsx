@@ -1,18 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
-import { CSSTransition } from 'react-transition-group';
-import ReactPortal from '../ReactPortal';
-import { Topic } from '../../fakeDatabase';
+import { useState, useEffect, useRef } from 'react'
+import { CSSTransition } from 'react-transition-group'
+import ReactPortal from '../ReactPortal'
+import { Topic } from '../../fakeDatabase'
 
 interface InputAddTopicModalProps {
-  submitLabelContent?: string;
-  cancelLabelContent?: string;
-  isOpen: boolean;
-  handleClose: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  submitLabelContent?: string
+  cancelLabelContent?: string
+  isOpen: boolean
+  handleClose: (e: React.MouseEvent<HTMLButtonElement>) => void
   handleAddTopicSubmit: (
     e: React.MouseEvent<HTMLButtonElement>,
     topicData: Topic,
     resetForm: () => void,
-  ) => void;
+  ) => void
 }
 
 function InputAddTopicModal({
@@ -24,32 +24,31 @@ function InputAddTopicModal({
 }: InputAddTopicModalProps) {
   const [values, setValues] = useState({
     name: '',
-  });
+  })
 
-  const nodeRef = useRef(null);
+  const nodeRef = useRef(null)
   useEffect(() => {
-    const closeOnEscapeKey = (e) =>
-      e.key === 'Escape' ? handleClose(e) : null;
-    document.body.addEventListener('keydown', closeOnEscapeKey);
+    const closeOnEscapeKey = (e) => (e.key === 'Escape' ? handleClose(e) : null)
+    document.body.addEventListener('keydown', closeOnEscapeKey)
     return () => {
-      document.body.removeEventListener('keydown', closeOnEscapeKey);
-    };
-  }, [handleClose]);
+      document.body.removeEventListener('keydown', closeOnEscapeKey)
+    }
+  }, [handleClose])
 
   const handleChange = (e) => {
     setValues({
       ...values,
       [e.target.name]: e.target.value,
-    });
-  };
+    })
+  }
 
   function resetForm() {
-    setValues({ name: '' });
+    setValues({ name: '' })
   }
 
   function handleSubmit(e) {
-    const topicData = { name: values.name };
-    handleAddTopicSubmit(e, topicData, resetForm);
+    const topicData = { name: values.name }
+    handleAddTopicSubmit(e, topicData, resetForm)
   }
 
   return (
@@ -95,7 +94,7 @@ function InputAddTopicModal({
         </div>
       </CSSTransition>
     </ReactPortal>
-  );
+  )
 }
 
-export default InputAddTopicModal;
+export default InputAddTopicModal

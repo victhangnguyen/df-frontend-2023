@@ -3,12 +3,7 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
 
-const Pagination = ({
-  itemsCount,
-  itemsPerPage,
-  currentPage,
-  onPageChange,
-}) => {
+const Pagination = ({ itemsCount, itemsPerPage, onPageChange }) => {
   const pagesCount: number =
     itemsCount && itemsPerPage ? Math.ceil(itemsCount / itemsPerPage) : 1
 
@@ -23,7 +18,7 @@ const Pagination = ({
 
   return (
     <ReactPaginate
-      forcePage={pagesCount - 1}
+      // forcePage
       pageCount={pagesCount}
       onPageChange={(selectedItem) => handlePageChange(selectedItem)}
       containerClassName="pagination-container"

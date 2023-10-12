@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconType } from '../../types';
+import React from 'react'
+import { IconType } from '../../types'
 
 function SettingIcon({
   size = '20px',
@@ -22,7 +22,7 @@ function SettingIcon({
         />
       </g>
     </svg>
-  );
+  )
 }
 
-export default SettingIcon;
+export default SettingIcon

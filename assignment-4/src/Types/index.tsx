@@ -1,5 +1,5 @@
-export * from './Topic'
-export * from './Book'
+export * from './TopicType'
+export * from './BookType'
 export * from './Button'
 export * from './Icon'
 export * from './Modal'

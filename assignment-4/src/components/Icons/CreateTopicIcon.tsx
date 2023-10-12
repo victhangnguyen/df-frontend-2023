@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconType } from '../../types';
+import React from 'react'
+import { IconType } from '../../types'
 
 function CreateTopicIcon({
   size = '20px',
@@ -31,7 +31,7 @@ function CreateTopicIcon({
         </g>
       )}
     </svg>
-  );
+  )
 }
 
-export default CreateTopicIcon;
+export default CreateTopicIcon

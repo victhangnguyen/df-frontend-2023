@@ -1,5 +1,5 @@
-import React from 'react';
-import { IconType } from '../../types';
+import React from 'react'
+import { IconType } from '../../types'
 
 function BarsIcon({
   size = '20px',
@@ -53,7 +53,7 @@ function BarsIcon({
         </>
       )}
     </svg>
-  );
+  )
 }
 
-export default BarsIcon;
+export default BarsIcon

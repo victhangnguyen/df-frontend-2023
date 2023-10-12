@@ -1,13 +1,15 @@
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useAppContext } from '../../Context'
 import { TableBook } from '../../components/Table'
 //! imp Components
 import Pagination from '../../components/Pagination'
 import Searchbar from '../../components/Searchbar'
-import { ConfirmationModal } from '../../components/Modal'
+import { ConfirmationModal, CreateBookModal } from '../../components/Modal'
+//! types
+import { BookType } from '../../types'
 
 const DATA_PER_PAGE = 5
 
@@ -18,16 +20,24 @@ const DATA_PER_PAGE = 5
 function BookPage() {
   const {
     state,
-    contextActions: { book },
+    contextActions: { book, modal },
   } = useAppContext()
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
 
-  const [search, setSearch] = useState<string>('')
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const [search, setSearch] = useState('')
+  const [showCreateBookModal, setShowCreateBookModal] = useState(false)
 
   const currentPage = Number(searchParams.get('page')) || 1
+
+  const fetchBookData = useCallback(() => {
+    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, { search })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, search, DATA_PER_PAGE])
+  useEffect(() => {
+    fetchBookData()
+  }, [fetchBookData])
 
   const serializeQueryString = (name: string, value: string) => {
     const urlParams = new URLSearchParams(searchParams)
@@ -47,33 +57,58 @@ function BookPage() {
   }
 
   const handleClose = () => {
-    setShowModal(false)
+    setShowCreateBookModal(false)
   }
 
-  const handleClickAdd = () => {
-    setShowModal(true)
+  const handleClickCreateBook = () => {
+    setShowCreateBookModal(true)
   }
 
-  useEffect(() => {
-    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, { search })
-  }, [currentPage, search])
+  const handleCreateBookSubmit = (
+    _e: React.FormEvent<HTMLFormElement>,
+    bookData: BookType,
+    resetForm: () => void,
+  ) => {
+    book.create(bookData)
+    resetForm()
+    //! rerender page
+    fetchBookData()
+  }
+
+  const handleConfirmSubmit = () => {
+    switch (state.modalType) {
+      case 'DELETE':
+        book.findIdAndDelete(state.selectedId)
+        modal.confirmClose()
+        fetchBookData()
+        break
+
+      default:
+        modal.confirmClose()
+        break
+    }
+  }
 
   return (
-    <div className="container mx-auto p-1 sm:p-0">
+    <div className="container mx-auto p-1 sm:p-0 h-[calc(100vh-20rem)]">
       <Searchbar
         onSearchChange={handleSearchChange}
-        onClickAdd={handleClickAdd}
+        onClick={handleClickCreateBook}
       />
       <TableBook data={state.books} />
       <Pagination
-        currentPage={currentPage}
         itemsCount={state.bookCounts}
         itemsPerPage={DATA_PER_PAGE}
         onPageChange={(newSelectedItem: number) =>
           handlePageChange(newSelectedItem)
         }
       />
-      <ConfirmationModal isOpen={showModal} onClose={handleClose} />
+      <CreateBookModal
+        isOpen={showCreateBookModal}
+        onSubmit={handleCreateBookSubmit}
+        onClose={handleClose}
+      />
+      <ConfirmationModal onSubmit={handleConfirmSubmit} />
     </div>
   )
 }

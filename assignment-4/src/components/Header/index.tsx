@@ -1,15 +1,14 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 function Header() {
   return (
     <header className="flex items-center justify-between bg-neutral-100 text-white border-solid border-4 border-b-rose-800 p-4">
       <h1 className="text-rose-800 text-xl font-semibold ">BookStore</h1>
-      <nav className="flex space-x-4">
-        <Link href="#">Trang chủ</Link>
+      {/* <nav className="flex space-x-4">
+        <Link href="">Trang chủ</Link>
         <Link href="#">Giới thiệu</Link>
         <Link href="#">Liên hệ</Link>
-      </nav>
+      </nav> */}
       <div className="flex items-center">
         <span className="text-slate-900">John Doe</span>
         <Image

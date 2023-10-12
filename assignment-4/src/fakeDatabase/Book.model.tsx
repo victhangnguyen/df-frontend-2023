@@ -1,6 +1,5 @@
 import collect, { Collection } from 'collect.js'
 import { storage } from '../ultilities'
-//! imp Types
 
 export class Book {
   public id: string | number

@@ -1,5 +1,6 @@
 export interface ModalProps {
   children: React.ReactNode
+  title: string
   isOpen: boolean
   onClose: (
     e:
@@ -9,12 +10,5 @@ export interface ModalProps {
 }
 
 export interface ConfirmationModalProps {
-  children: React.ReactNode
-  isOpen: boolean
-  handleClose: (
-    e:
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
-      | React.KeyboardEvent<HTMLImageElement>,
-  ) => void
-  handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void
+  onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
