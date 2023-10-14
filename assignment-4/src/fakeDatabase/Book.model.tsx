@@ -1,3 +1,5 @@
+'use client'
+
 import collect, { Collection } from 'collect.js'
 import { storage } from '../ultilities'
 import { BookType } from '../types'
