@@ -10,9 +10,7 @@ module.exports = {
     'next',
     'next/core-web-vitals',
   ],
-  ignorePatterns: [
-    'node_modules/',
-  ],
+  ignorePatterns: ['node_modules/'],
   env: {
     es6: true,
     browser: true,
@@ -35,7 +33,16 @@ module.exports = {
       presets: [require.resolve('next/babel')],
     },
   },
-  rules: {},
+  rules: {
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
+  },
   overrides: [
     {
       files: ['**/*.ts?(x)', '**/*.js?(x)'],
@@ -44,6 +51,7 @@ module.exports = {
         'react/jsx-sort-props': 'off',
         'react/function-component-definition': 'off',
         'no-shadow': 'off',
+        'no-console': 'off',
       },
     },
   ],

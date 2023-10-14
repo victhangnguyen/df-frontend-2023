@@ -1,49 +1,66 @@
-import BookAPI from '../fakeAPIs/bookAPI'
+import { bookServices } from '../Services'
 import * as actionTypes from './actionTypes'
+//! types
+import { BookType } from '../types'
 
 export const createContextActions = (dispatch) => {
   return {
-    //! navDashboardContextActions
-    navDashboard: {
-      open: () => {
-        dispatch({ type: actionTypes.OPEN_NAV_DASHBOARD })
-      },
-      collapse: () => {
-        dispatch({ type: actionTypes.COLLAPSE_NAV_DASHBOARD })
-      },
-    },
-    //! bookContextActions
     book: {
       fetchAll: () => {
-        const response = BookAPI.fetchAll()
+        const response = bookServices.fetchAll()
         dispatch({
           type: actionTypes.FETCH_ALL_BOOK,
           payload: response,
         })
       },
-      create: (bookData) => {
-        const response = BookAPI.create(bookData)
+      create: (bookData: BookType) => {
+        const response = bookServices.create(bookData)
         dispatch({
           type: actionTypes.CREATE_ONE_BOOK,
           payload: response,
         })
       },
-      findIdAndDelete: (id) => {
-        const response = BookAPI.findOneAndRemove(id)
+      findIdAndDelete: (id: string | number) => {
+        const response = bookServices.findOneAndRemove(id)
         dispatch({ type: actionTypes.DELETE_ONE_BOOK, payload: response })
       },
-      fetchBooksByFilters: (page, perPage, { search = '' }) => {
-        const response = BookAPI.fetchBooksByFilters(page, perPage, { search })
+      fetchBooksByFilters: (
+        page: number,
+        perPage: number,
+        { search = '' }: { search: string },
+      ) => {
+        const response = bookServices.fetchBooksByFilters(page, perPage, {
+          search,
+        })
         dispatch({
           type: actionTypes.FETCH_BOOKS_BY_FILTERS,
           payload: response,
         })
       },
     },
-    darkMode: {
-      toggle: () => {
+    modal: {
+      confirmDeleteBook: (bookData: BookType) => {
         dispatch({
-          type: actionTypes.TOGGLE_DARK_LIGHT,
+          type: actionTypes.CONFIRM_DELETE_BOOK,
+          payload: {
+            modalType: 'DELETE',
+            selectedId: bookData.id,
+            modalIsOpen: true,
+            modalTitle: 'Delete Book',
+            modalMessage: `Do you want to delete ${bookData.name} book?`,
+          },
+        })
+      },
+      confirmClose: () => {
+        dispatch({
+          type: actionTypes.CONFIRM_DELETE_BOOK,
+          payload: {
+            selectedId: '',
+            modalType: '',
+            modalIsOpen: false,
+            modalTitle: '',
+            modalMessage: '',
+          },
         })
       },
     },

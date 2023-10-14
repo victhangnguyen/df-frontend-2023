@@ -1,9 +1,12 @@
+import React from 'react'
+import { IconType } from '../../types'
+
 function CreateBookIcon({
-  size = 20,
+  size = '20px',
   color = '#000000',
   colorActive = '#000000',
   active = false,
-}): JSX.Element {
+}: IconType) {
   return (
     <svg
       width={size}

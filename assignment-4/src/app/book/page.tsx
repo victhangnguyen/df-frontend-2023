@@ -1,75 +1,131 @@
 'use client'
 
-import React from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useAppContext } from '../../Context'
-import TableBook from '../../components/TableBook'
-import { generateData } from '../../fakeDatabase'
-import defaultExport from '../../components/Pagination'
+import { TableBook } from '../../components/Table'
+//! imp Components
+import Pagination from '../../components/Pagination'
+import Searchbar from '../../components/Searchbar'
+import { ConfirmationModal, CreateBookModal } from '../../components/Modal'
+//! types
+import { BookType } from '../../types'
 
 const DATA_PER_PAGE = 5
-const TOTAL_DATA = 37
 
-interface BookPageProps {
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
+// interface BookPageProps {
+//   searchParams?: { [key: string]: string | string[] | undefined }
+// }
 
-function BookPage({ searchParams }: BookPageProps) {
+function BookPage() {
   const {
     state,
-    contextActions: { book },
+    contextActions: { book, modal },
   } = useAppContext()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
 
-  console.log('searchParams: ', searchParams)
+  const [search, setSearch] = useState(() => searchParams.get('q') || '')
 
-  // const currentPage: number = Number(searchParams?.page) || 1
-  const currentPage: number = 4
-  
-  // const totalPages = Math.ceil(TOTAL_DATA / DATA_PER_PAGE)
-  const totalPages = 10
+  const currentPage = Number(searchParams.get('page')) || 1
 
-  let offset: number = (currentPage - 1) * DATA_PER_PAGE
+  const [showCreateBookModal, setShowCreateBookModal] = useState(false)
 
-  console.log('totalPages: ', totalPages)
+  const fetchBookData = useCallback(() => {
+    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, { search })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, search, DATA_PER_PAGE])
+  useEffect(() => {
+    fetchBookData()
+  }, [fetchBookData])
 
-  const pageNumbers: Array<number> = []
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(searchParams)
+    if (!search.trim()) {
+      urlSearchParams.delete('search')
+      router.push(`${pathname}?${urlSearchParams.toString()}`)
+    } else {
+      urlSearchParams.set('q', search)
+      urlSearchParams.set('page', '1')
+      router.push(`${pathname}?${urlSearchParams.toString()}`)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search])
 
-  for (let i: number = currentPage - 3; i <= currentPage + 3; i++) {
-    if (i < 1) continue
-    if (i > currentPage) break
-    pageNumbers.push(i)
+  const createQueryString = (name: string, value: string) => {
+    const urlParams = new URLSearchParams(searchParams)
+    urlParams.set(name, value)
+
+    return urlParams.toString()
   }
-  console.log('pageNumbers: ', pageNumbers)
 
-  React.useEffect(() => {
-    generateData()
+  const handlePageChange = (newSelectedItem: number) => {
+    router.push(
+      `${pathname}?${createQueryString('page', String(newSelectedItem))}`,
+    )
+  }
 
-    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, {
-      search: '',
-    })
-  }, [])
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value.toLowerCase())
+  }
 
-  console.log('state.books: ', state.books)
+  const handleClose = () => {
+    setShowCreateBookModal(false)
+  }
 
-  React.useEffect(() => {
-    book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, { search: 'the' })
-  }, [currentPage])
+  const handleClickCreateBook = () => {
+    setShowCreateBookModal(true)
+  }
+
+  const handleCreateBookSubmit = (
+    _e: React.FormEvent<HTMLFormElement>,
+    bookData: BookType,
+    resetForm: () => void,
+  ) => {
+    book.create(bookData)
+    resetForm()
+    //! rerender page
+    fetchBookData()
+  }
+
+  const handleConfirmSubmit = () => {
+    switch (state.modalType) {
+      case 'DELETE':
+        book.findIdAndDelete(state.selectedId)
+        modal.confirmClose()
+        fetchBookData()
+        break
+
+      default:
+        modal.confirmClose()
+        break
+    }
+  }
 
   return (
-    <h1>
-      <div className="container mx-auto">
-        <TableBook data />
-      </div>
-    </h1>
+    <div className="container mx-auto p-5 sm:p-0 min-h-[calc(100vh-20rem)]">
+      <Searchbar
+        onSearchChange={handleSearchChange}
+        onClick={handleClickCreateBook}
+      />
+      <TableBook data={state.books} />
+      <Pagination
+        itemsCount={state.bookCounts}
+        itemsPerPage={DATA_PER_PAGE}
+        currentPage={currentPage}
+        onPageChange={(newSelectedItem: number) =>
+          handlePageChange(newSelectedItem)
+        }
+      />
+      <CreateBookModal
+        isOpen={showCreateBookModal}
+        onSubmit={handleCreateBookSubmit}
+        onClose={handleClose}
+      />
+      <ConfirmationModal onSubmit={handleConfirmSubmit} />
+    </div>
   )
 }
 
 export default BookPage
-// export default function Page({
-//   params,
-//   searchParams,
-// }: {
-//   params: { slug: string };
-//   searchParams?: { [key: string]: string | string[] | undefined };
-// }) {
-//   return <h1>{searchParams?.greeting || "Hello!"}</h1>;
-// }

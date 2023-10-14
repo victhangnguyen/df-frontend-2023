@@ -1,3 +1,5 @@
+'use client'
+
 import { storage } from '../ultilities'
 
 const topicStorage = [

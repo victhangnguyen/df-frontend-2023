@@ -1,34 +1,20 @@
 import * as actionTypes from './actionTypes'
+import { BookType } from '../types'
 
 export const initialState = {
-  //! NavDashboard
-  isNavDashboardActive: false,
-  //! BookState
+  //! bookReducer
   books: [],
   bookCounts: 0,
-  //! TopicState
-  topics: [],
-  topicCounts: 0,
-  //! loading
-  loading: false,
-  //! dark light mode
-  isLight: true,
+  //! modalReducer
+  selectedId: '',
+  modalType: '',
+  modalIsOpen: false,
+  modalTitle: '',
+  modalMessage: '',
 }
 
 export function combineReducer(state, action) {
   switch (action.type) {
-    //! navDashboardReducer
-    case actionTypes.COLLAPSE_NAV_DASHBOARD:
-      return {
-        ...state,
-        isNavDashboardActive: true,
-      }
-    case actionTypes.OPEN_NAV_DASHBOARD:
-      return {
-        ...state,
-        isNavDashboardActive: false,
-      }
-
     //! bookReducer
     case actionTypes.FETCH_ALL_BOOK:
       return {
@@ -45,7 +31,7 @@ export function combineReducer(state, action) {
       return {
         ...state,
         books: state.books.filter(
-          (book) => String(book.id) !== String(action.payload.id),
+          (book: BookType) => String(book.id) !== String(action.payload.id),
         ),
         bookCounts: state.bookCounts - 1,
       }
@@ -55,33 +41,22 @@ export function combineReducer(state, action) {
         books: action.payload.books,
         bookCounts: action.payload.bookCounts,
       }
-
-    //! topicReducer
-    case actionTypes.FETCH_ALL_TOPIC:
+    case actionTypes.CONFIRM_DELETE_BOOK:
       return {
         ...state,
-        topics: action.payload,
+        selectedId: action.payload.selectedId,
+        modalType: action.payload.modalType,
+        modalIsOpen: action.payload.modalIsOpen,
+        modalTitle: action.payload.modalTitle,
+        modalMessage: action.payload.modalMessage,
       }
-    case actionTypes.CREATE_ONE_TOPIC:
+    case actionTypes.CONFIRM_CLOSE:
       return {
         ...state,
-        topics: [action.payload, ...state.topics],
-      }
-    case actionTypes.DELETE_ONE_TOPIC:
-      return {
-        ...state,
-        topics: action.payload,
-      }
-    case actionTypes.FETCH_TOPICS_BY_FILTERS:
-      return {
-        ...state,
-        topics: action.payload,
-      }
-    //dark light mode
-    case actionTypes.TOGGLE_DARK_LIGHT:
-      return {
-        ...state,
-        isLight: !state.isLight,
+        modalType: action.payload.modalType,
+        modalIsOpen: action.payload.modalIsOpen,
+        modalTitle: action.payload.modalTitle,
+        modalMessage: action.payload.modalMessage,
       }
 
     default: {
