@@ -1,10 +1,18 @@
-function Searchbar({ onSearchChange, onClick }) {
+//! imp Comps
+import { Button } from '../Buttons'
+
+interface SearbarProps {
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onClick: React.MouseEventHandler<HTMLButtonElement> | undefined
+}
+
+function Searchbar({ onSearchChange, onClick }: SearbarProps) {
   return (
     <div className="grid grid-cols-12 gap-4 my-5">
       <div className="col-start-1 col-span-8 sm:col-span-7 md:col-span-8">
         <label
           htmlFor="input-search"
-          className="block mb-2 text-sm font-medium text-gray-900"
+          className="block mb-2 text-sm font-medium text-black dark:text-white "
         >
           Search
         </label>
@@ -16,14 +24,14 @@ function Searchbar({ onSearchChange, onClick }) {
           onChange={(event) => onSearchChange(event)}
         />
       </div>
-      <div className=" flex items-center col-start-10 col-span-3 sm:col-start-11 sm:col-span-2">
-        <button
-          type="button"
-          className=" w-full text-white bg-rose-500 hover:bg-rose-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-rose-600 dark:hover:bg-rose-700 dark:focus:ring-rose-800"
+      <div className="flex items-center col-start-10 col-span-3 sm:col-start-11 sm:col-span-2">
+        <Button
+          className="w-full flex justify-center"
+          variant="danger"
           onClick={onClick}
         >
           Add Book
-        </button>
+        </Button>
       </div>
     </div>
   )

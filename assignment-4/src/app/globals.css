@@ -2,44 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
-
+/* PAGINATION */
 .pagination-container {
   @apply list-none flex justify-center p-0 mt-3;
 }
 
-.pagination-container a {
-  @apply px-3 py-1.5 mx-0.5 relative block rounded text-sm dark:text-neutral-600  dark:text-slate-800 dark:hover:bg-neutral-700;
+.pagination-container li {
+  @apply px-3 py-1.5 mx-0.5 relative block rounded text-sm text-neutral-800 hover:bg-rose-200 dark:text-white dark:hover:text-black dark:hover:bg-rose-400;
 }
 
-.pagination-active {
-  @apply relative block rounded bg-slate-500 text-sm font-medium text-slate-50 dark:text-slate-500 transition-all duration-300;
+.pagination-container .pagination-active {
+  @apply relative block rounded bg-rose-700 text-sm font-medium text-white dark:text-white transition-all duration-300;
 }
 
-.pagination-disabled {
-  @apply pointer-events-none relative text-sm  text-neutral-100 dark:hover:bg-neutral-100;
+.pagination-container .pagination-disabled {
+  @apply pointer-events-none relative text-sm text-neutral-400 dark:text-neutral-500 dark:hover:bg-neutral-100;
 }
 
 .modal {
@@ -57,4 +34,54 @@ body {
 }
 .modal-exit {
   transform: scale(0.4);
+}
+
+/* Practise Styling the Toggle Button with global CSS*/
+/* TOGGLE BUTTON */
+.toggle-button label {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+.toggle-button input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-button span {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #2c3e50;
+  transition: 0.3s;
+  border-radius: 30px;
+}
+.toggle-button span:before {
+  position: absolute;
+  content: '';
+  height: 25px;
+  width: 25px;
+  left: 3px;
+  bottom: 2.6px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.toggle-button input:checked + span {
+  background-color: #00c853;
+}
+.toggle-button input:checked + span:before {
+  transform: translateX(29px);
+}
+.toggle-button strong {
+  position: absolute;
+  left: 100%;
+  width: max-content;
+  line-height: 30px;
+  margin-left: 10px;
+  cursor: pointer;
 }

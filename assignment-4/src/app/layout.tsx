@@ -1,9 +1,11 @@
-import './globals.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
+import './globals.css'
+
 //! imp Comps
-import Header from '../components/Header'
 import Footer from '../components/Footer'
+import Header from '../components/Header'
+import Provider from './provider'
 //! Context
 import { AppStoreProvider } from '../Context'
 
@@ -23,9 +25,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={poppins.className}>
         <AppStoreProvider>
-          <Header />
-          {children}
-          <Footer />
+          <Provider>
+            <Header />
+            {children}
+            <Footer />
+          </Provider>
         </AppStoreProvider>
       </body>
     </html>

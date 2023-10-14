@@ -53,7 +53,7 @@ function BookPage() {
   }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value)
+    setSearch(event.target.value.toLowerCase())
   }
 
   const handleClose = () => {
@@ -90,7 +90,7 @@ function BookPage() {
   }
 
   return (
-    <div className="container mx-auto p-1 sm:p-0 h-[calc(100vh-20rem)]">
+    <div className="container mx-auto p-5 sm:p-0 min-h-[calc(100vh-20rem)]">
       <Searchbar
         onSearchChange={handleSearchChange}
         onClick={handleClickCreateBook}
