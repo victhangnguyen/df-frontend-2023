@@ -1,3 +1,5 @@
+'use client'
+
 //! saveToStorage func
 //! function is used to store the Books into LocalStorage
 export function saveToLocalStorage(key: string, value) {

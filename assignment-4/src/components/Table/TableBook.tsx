@@ -11,17 +11,13 @@ function TableBook({ data }: { data: Array<BookType> }) {
   const {
     contextActions: { modal },
   } = useAppContext()
+
   const handleClickDelete = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     bookData: BookType,
   ) => {
     e.stopPropagation()
     modal.confirmDeleteBook(bookData)
-  }
-  const handleClickView = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    console.log('e:', e)
   }
 
   const tableHeaders: Array<string> = [
@@ -38,7 +34,9 @@ function TableBook({ data }: { data: Array<BookType> }) {
           <tr
             key={book.id}
             className={`bg-white border-b ${
-              index % 2 ? 'dark:bg-gray-900' : 'dark:bg-gray-800'
+              index % 2
+                ? 'bg-slate-100 dark:bg-gray-900'
+                : 'bg-slate-200 dark:bg-gray-800'
             } dark:border-gray-700`}
           >
             <th
@@ -54,18 +52,15 @@ function TableBook({ data }: { data: Array<BookType> }) {
               <div className="flex">
                 <Button
                   icon={<DeleteIcon />}
+                  variant="danger"
                   label="Delete"
                   onClick={(e) => handleClickDelete(e, book)}
                 />
                 <Link
-                  href="/book/id"
+                  href={`/book/${book.id}`}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >
-                  <Button
-                    icon={<EditIcon />}
-                    label="View"
-                    onClick={handleClickView}
-                  />
+                  <Button icon={<EditIcon />} variant="danger" label="View" />
                 </Link>
               </div>
             </td>

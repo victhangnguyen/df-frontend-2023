@@ -40,7 +40,6 @@ function CreateBookModal({ isOpen, onClose, onSubmit }: CreateBookModalProps) {
   }
 
   const handleChange = (e) => {
-    console.log('e.target.value:', e.target.value)
     setValues({
       ...values,
       [e.target.name]: e.target.value,
@@ -57,7 +56,7 @@ function CreateBookModal({ isOpen, onClose, onSubmit }: CreateBookModalProps) {
   })
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal title="Create New Book" isOpen={isOpen} onClose={onClose}>
       {/* <!-- Modal body --> */}
       <form
         className="p-5"
