@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconType } from '../../types'
+import { IconType } from '../../typesTS'
 
 function SettingIcon({
   size = '20px',

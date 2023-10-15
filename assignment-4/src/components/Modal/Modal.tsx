@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import ReactPortal from '../ReactPortal'
 //! types
-import { ModalProps } from '../../types'
+import { ModalProps } from '../../typesTS'
 
 function Modal({ title, isOpen, onClose, children }: ModalProps) {
   const nodeRef = useRef(null)

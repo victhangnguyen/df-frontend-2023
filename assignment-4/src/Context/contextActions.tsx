@@ -1,7 +1,7 @@
 import { bookServices } from '../Services'
 import * as actionTypes from './actionTypes'
 //! types
-import { BookType } from '../types'
+import { BookType } from '../typesTS'
 
 export const createContextActions = (dispatch) => {
   return {

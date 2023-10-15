@@ -4,7 +4,7 @@ import { createContext, useContext, useMemo, useReducer } from 'react'
 import { combineReducer, initialState } from './combineReducer'
 import { createContextActions } from './contextActions'
 //! types
-import { AppContextType } from '../types'
+import { AppContextType } from '../typesTS'
 
 const AppContext = createContext<AppContextType>({
   state: initialState,

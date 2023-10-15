@@ -1,5 +1,5 @@
 import { Book } from '../fakeDatabase'
-import { BookType } from '../types'
+import { BookType } from '../typesTS'
 
 //! Just suppose to get data from database
 export function fetchAll() {
@@ -9,6 +9,11 @@ export function fetchAll() {
 
 export function create(bookData: BookType) {
   const book = Book.create(bookData)
+  return book
+}
+
+export function findOneById(id: string | number) {
+  const book = Book.findOneById(id)
   return book
 }
 

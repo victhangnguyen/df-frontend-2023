@@ -1,11 +1,13 @@
+'use client'
+
 import React from 'react'
-import { ToggleButtonProps } from '../../types/Button'
+import { ToggleButtonProps } from '../../typesTS/Button'
 
-function ToggleButton({ label, toggled, onClick }: ToggleButtonProps) {
-  const [isToggled, toggle] = React.useState<boolean>(toggled)
+function ToggleButton({ label, toggled = false, onClick }: ToggleButtonProps) {
+  const [isToggled, setIsToggled] = React.useState<boolean>(toggled)
 
-  const callback = () => {
-    toggle(!isToggled)
+  const handleClick = () => {
+    setIsToggled(!isToggled)
     onClick(!isToggled)
   }
 
@@ -16,7 +18,7 @@ function ToggleButton({ label, toggled, onClick }: ToggleButtonProps) {
           id="ipt-toggle-button"
           type="checkbox"
           defaultChecked={isToggled}
-          onClick={callback}
+          onClick={handleClick}
         />
         <span />
         <strong>{label}</strong>

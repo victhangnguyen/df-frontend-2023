@@ -1,5 +1,7 @@
+'use client'
+
 import * as actionTypes from './actionTypes'
-import { BookType } from '../types'
+import { BookType } from '../typesTS'
 
 export const initialState = {
   //! bookReducer
