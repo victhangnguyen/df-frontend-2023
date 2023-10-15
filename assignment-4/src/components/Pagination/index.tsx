@@ -1,10 +1,24 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import ReactPaginate from 'react-paginate'
 
-const Pagination = ({ itemsCount, itemsPerPage, onPageChange }) => {
-  const pagesCount: number =
+interface PaginationProps {
+  itemsCount: number
+  itemsPerPage: number
+  currentPage: number
+  onPageChange: (newSelectedItem: number) => void
+}
+
+const Pagination = ({
+  itemsCount,
+  itemsPerPage,
+  currentPage,
+  onPageChange,
+}: PaginationProps) => {
+  const [currentPagePagination, setCurrentPagePagination] = useState(1)
+
+  const pageCount: number =
     itemsCount && itemsPerPage ? Math.ceil(itemsCount / itemsPerPage) : 1
 
   // types onPageChange?(selectedItem: { selected: number }): void;
@@ -14,12 +28,14 @@ const Pagination = ({ itemsCount, itemsPerPage, onPageChange }) => {
     onPageChange(newSelectedItem)
   }
 
-  // curentPage - 1
+  useLayoutEffect(() => {
+    setCurrentPagePagination(currentPage)
+  }, [currentPage])
 
   return (
     <ReactPaginate
-      // forcePage
-      pageCount={pagesCount}
+      forcePage={currentPagePagination - 1}
+      pageCount={pageCount}
       onPageChange={(selectedItem) => handlePageChange(selectedItem)}
       containerClassName="pagination-container"
       disabledClassName="pagination-disabled"

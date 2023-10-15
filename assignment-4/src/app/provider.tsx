@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from 'next-themes'
+import { generateData } from '../fakeDatabase'
 
 interface ProviderProps {
   children: React.ReactNode
@@ -16,6 +17,8 @@ function Provider({ children }: ProviderProps) {
   if (!mounted) {
     return <div>{children}</div>
   }
+
+  generateData()
 
   return <ThemeProvider attribute="class">{children}</ThemeProvider>
 }

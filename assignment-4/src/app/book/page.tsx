@@ -26,10 +26,11 @@ function BookPage() {
   const pathname = usePathname()
   const router = useRouter()
 
-  const [search, setSearch] = useState('')
-  const [showCreateBookModal, setShowCreateBookModal] = useState(false)
+  const [search, setSearch] = useState(() => searchParams.get('q') || '')
 
   const currentPage = Number(searchParams.get('page')) || 1
+
+  const [showCreateBookModal, setShowCreateBookModal] = useState(false)
 
   const fetchBookData = useCallback(() => {
     book.fetchBooksByFilters(currentPage, DATA_PER_PAGE, { search })
@@ -39,7 +40,20 @@ function BookPage() {
     fetchBookData()
   }, [fetchBookData])
 
-  const serializeQueryString = (name: string, value: string) => {
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(searchParams)
+    if (!search.trim()) {
+      urlSearchParams.delete('search')
+      router.push(`${pathname}?${urlSearchParams.toString()}`)
+    } else {
+      urlSearchParams.set('q', search)
+      urlSearchParams.set('page', '1')
+      router.push(`${pathname}?${urlSearchParams.toString()}`)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search])
+
+  const createQueryString = (name: string, value: string) => {
     const urlParams = new URLSearchParams(searchParams)
     urlParams.set(name, value)
 
@@ -48,7 +62,7 @@ function BookPage() {
 
   const handlePageChange = (newSelectedItem: number) => {
     router.push(
-      `${pathname}?${serializeQueryString('page', String(newSelectedItem))}`,
+      `${pathname}?${createQueryString('page', String(newSelectedItem))}`,
     )
   }
 
@@ -99,6 +113,7 @@ function BookPage() {
       <Pagination
         itemsCount={state.bookCounts}
         itemsPerPage={DATA_PER_PAGE}
+        currentPage={currentPage}
         onPageChange={(newSelectedItem: number) =>
           handlePageChange(newSelectedItem)
         }
