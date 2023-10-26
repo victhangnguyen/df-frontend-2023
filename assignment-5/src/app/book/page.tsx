@@ -99,15 +99,16 @@ function BookPage() {
   }
 
   const handleAddEditSubmit = (
-    _e: React.FormEvent<HTMLFormElement>,
-    bookData: BookType,
-    resetForm: () => void,
+    // _e: React.FormEvent<HTMLFormElement>,
+    bookData,
+    methods,
   ) => {
     if (!bookDetail) {
       //! if bookDetail no-exist
       //! MODE: CREATE NEW BOOK
       book.create(bookData)
-      resetForm()
+      //! resetForm after create successful
+      methods.reset()
       //! rerender page
       fetchBookData()
     } else {

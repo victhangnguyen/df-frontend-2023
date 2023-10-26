@@ -3,8 +3,25 @@
 import { createContext, useContext, useMemo, useReducer } from 'react'
 import { combineReducer, initialState } from './combineReducer'
 import { createContextActions } from './contextActions'
-//! types
-import { AppContextType } from '../typesTS'
+
+import { BookType } from '../typesTS'
+
+export interface InitialStateType {
+  books: Array<BookType>
+  book: BookType | null
+  bookCounts: number
+  selectedId: string
+  modalType: string
+  modalIsOpen: boolean
+  modalTitle: string
+  modalMessage: string
+}
+
+export interface AppContextType {
+  state: InitialStateType
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatch: React.Dispatch<any>
+}
 
 const AppContext = createContext<AppContextType>({
   state: initialState,

@@ -13,6 +13,13 @@ export const createContextActions = (dispatch) => {
           payload: response,
         })
       },
+      fetchOne: (id: string | number) => {
+        const response = bookServices.findOneById(id)
+        dispatch({
+          type: actionTypes.FETCH_ALL_BOOK,
+          payload: { book: response },
+        })
+      },
       create: (bookData: BookType) => {
         const response = bookServices.create(bookData)
         dispatch({

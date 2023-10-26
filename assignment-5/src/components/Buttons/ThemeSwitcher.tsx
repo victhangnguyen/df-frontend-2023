@@ -20,7 +20,6 @@ const ThemeSwitcher = () => {
   return (
     <ToggleButton
       onClick={(toggle) => {
-        console.log('toggle:', toggle)
         setTheme(toggle ? 'dark' : 'light')
       }}
       toggled={theme !== 'light'}

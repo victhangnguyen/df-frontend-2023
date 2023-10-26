@@ -6,6 +6,7 @@ import { BookType } from '../typesTS'
 export const initialState = {
   //! bookReducer
   books: [],
+  book: null,
   bookCounts: 0,
   //! modalReducer
   selectedId: '',
@@ -17,12 +18,19 @@ export const initialState = {
 
 export function combineReducer(state, action) {
   switch (action.type) {
-    //! bookReducer
+    //! BOOK REDUCER
     case actionTypes.FETCH_ALL_BOOK:
       return {
         ...state,
         books: action.payload,
       }
+
+    case actionTypes.FETCH_ONE_BOOK:
+      return {
+        ...state,
+        book: action.payload.book,
+      }
+
     case actionTypes.CREATE_ONE_BOOK:
       return {
         ...state,
@@ -37,12 +45,15 @@ export function combineReducer(state, action) {
         ),
         bookCounts: state.bookCounts - 1,
       }
+
     case actionTypes.FETCH_BOOKS_BY_FILTERS:
       return {
         ...state,
         books: action.payload.books,
         bookCounts: action.payload.bookCounts,
       }
+
+    //! MODAL REDUCER
     case actionTypes.CONFIRM_DELETE_BOOK:
       return {
         ...state,
@@ -52,6 +63,7 @@ export function combineReducer(state, action) {
         modalTitle: action.payload.modalTitle,
         modalMessage: action.payload.modalMessage,
       }
+
     case actionTypes.CONFIRM_CLOSE:
       return {
         ...state,

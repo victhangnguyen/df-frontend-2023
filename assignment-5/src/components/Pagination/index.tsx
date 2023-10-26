@@ -16,7 +16,7 @@ const Pagination = ({
   currentPage,
   onPageChange,
 }: PaginationProps) => {
-  const [currentPagePagination, setCurrentPagePagination] = useState(1)
+  const [currentPageNumber, setCurrentPageNumber] = useState(0)
 
   const pageCount: number =
     itemsCount && itemsPerPage ? Math.ceil(itemsCount / itemsPerPage) : 1
@@ -29,12 +29,12 @@ const Pagination = ({
   }
 
   useLayoutEffect(() => {
-    setCurrentPagePagination(currentPage)
+    setCurrentPageNumber(currentPage)
   }, [currentPage])
 
   return (
     <ReactPaginate
-      forcePage={currentPagePagination - 1}
+      forcePage={currentPageNumber - 1}
       pageCount={pageCount}
       onPageChange={(selectedItem) => handlePageChange(selectedItem)}
       containerClassName="pagination-container"
